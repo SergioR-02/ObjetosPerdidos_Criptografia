@@ -1,0 +1,40 @@
+.externalBasicLayout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: 
+  /* Gradiente radial en la esquina superior izquierda */
+  radial-gradient(circle at top left,
+    rgba(31, 65, 187, 0.25) 0%,  /* color actualizado y opacidad */
+    rgba(0, 0, 0, 0) 25%       /* transición a transparente */
+  ),
+  /* Gradiente radial en la esquina inferior derecha */
+  radial-gradient(circle at bottom right,
+    rgba(31, 65, 187, 0.15) 0%,
+    rgba(0, 0, 0, 0) 10%
+  ),
+  radial-gradient(circle at top right,
+    rgba(187, 31, 31, 0.3) 0%,  /* color actualizado y opacidad */
+    rgba(0, 0, 0, 0) 25%       /* transición a transparente */
+  ),
+  radial-gradient(circle at bottom left,
+    rgba(187, 31, 31, 0.15) 0%,
+    rgba(0, 0, 0, 0) 10%
+  ),
+  /* Color base de fondo */
+  #101728;
+  width: 100%;
+  padding: 2.5rem 0rem 2.5rem;
+  .basicLayout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: calc(100vh - 10.5rem);
+    max-width: 1400px;
+    padding: 0 1rem;
+    width: 100%;
+    @media screen and (max-width: 768px) {
+      padding: 0 1rem;
+    }
+  }
+}

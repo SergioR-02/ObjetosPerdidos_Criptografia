@@ -1,0 +1,22 @@
+.user-info{
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    .user-info__image{
+        border-radius: 100%;
+        width: 4.5rem;
+        height: 4.5rem;
+        object-fit: cover;
+    }
+    .user-info-data{
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+        .user-info-data__name{
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+    }
+}

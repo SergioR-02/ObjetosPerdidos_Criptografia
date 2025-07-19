@@ -1,0 +1,35 @@
+.register-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .register-form__title{
+        color: white;
+        font-size: 3em;
+        margin-bottom: .5em;
+        width: 30rem;
+        text-align: center;
+        line-height: 1;
+    }
+    .register-form__fields{
+        display: flex;
+        flex-direction: column;
+        gap: .7rem;
+        margin-bottom: 2rem;
+    }
+    .register-form__button{
+        width: 20rem;
+        height: 4rem;
+        border-radius: 10rem;
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+    .register-form__errorMessage{
+        margin-top: 1rem;
+    }
+    .register-form__password-info{
+        color: white;
+        font-size: .75rem;
+    }
+}

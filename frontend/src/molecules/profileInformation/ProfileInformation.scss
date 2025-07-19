@@ -1,0 +1,31 @@
+.profile-information {
+  background-color: #252b39;
+  padding: 2rem;
+  border-radius: 2rem;
+  .profile-information__description {
+    margin-bottom: 2rem;
+  }
+  .profile-information__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin-bottom: 1.5rem;
+    .profile-information__input {
+      color: white;
+      font-weight: 300;
+      background-color: #373c48;
+      border: none;
+      padding: 1rem;
+      border-radius: 1rem;
+    }
+  }
+  .profile-information__button {
+    font-weight: 600;
+    width: 35%;
+    min-width: 200px;
+    padding: 1rem ;
+    border-radius: 10rem;
+    display: block;
+    margin: 0 auto;
+  }
+}

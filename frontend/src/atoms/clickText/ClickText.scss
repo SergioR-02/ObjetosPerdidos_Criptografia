@@ -1,0 +1,10 @@
+.clickable-text {
+  text-align: center;
+  font-weight: 600;
+  cursor: pointer;
+  color: #d3d3d3; 
+
+  &:hover {
+    color: #ffffff; 
+  }
+}

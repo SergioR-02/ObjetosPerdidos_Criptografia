@@ -1,0 +1,57 @@
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  &__label {
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  &__options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  &__option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+  }
+
+  &__input {
+    font-family: var(--font-poppins);
+    appearance: none;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+
+    &:checked {
+      border-color: #a855f7;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        width: 0.75rem;
+        height: 0.75rem;
+        background-color: #a855f7;
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
+
+  &__text {
+    color: white;
+    font-size: 1em;
+  }
+}
+

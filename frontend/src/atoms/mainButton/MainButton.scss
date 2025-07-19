@@ -1,0 +1,7 @@
+.mainButton{
+    background: linear-gradient(90deg, #ff3c5f 0%, #9340ff 100%);
+    &:hover {
+        background: linear-gradient(90deg, #fd002e 0%, #6f00ff 100%);
+    }
+}
+

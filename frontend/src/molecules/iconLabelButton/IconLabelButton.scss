@@ -1,0 +1,16 @@
+.iconLabel{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: end;
+  gap: 0.8rem;
+  max-width: 12.5rem;
+  min-width: 3.125rem;
+  &__label{
+    @media (max-width: 750px) {
+      display: none;
+    }
+  }
+}
+
+

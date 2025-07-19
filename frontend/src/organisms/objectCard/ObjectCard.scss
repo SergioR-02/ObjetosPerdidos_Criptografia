@@ -1,0 +1,65 @@
+.card__container {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.8rem;
+  width: 90%;
+  
+  .card {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 3rem;
+    border-radius: 1rem;
+    background-color: #252b39;
+
+    &__text{
+      text-align: center;
+    }
+
+    .card__image {
+      object-fit: cover;
+      max-width: 19rem;
+      max-height: 14rem;
+      border-radius: 0.9rem;
+    }
+    .card__title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      align-self: flex-start;
+      overflow: hidden;
+      white-space: normal;      // Permite que el texto se divida en varias líneas
+      word-break: break-word;   // Rompe palabras largas que no caben en una línea
+    }
+    .card__list {
+      list-style-type: disc;
+      padding-left: 1.5rem;
+      margin-bottom: 1rem;
+      .card__list-item {
+        overflow: auto;
+        max-height: 8rem;
+        list-style-position: inside;
+      }
+    }
+    .card__button {
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 2rem;
+      color: black;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    @media (max-width: 750px) {
+      padding: 1.8rem;
+
+      .card__title {
+        font-size: 1.5rem; // Se reduce el tamaño de la fuente en pantallas pequeñas
+      }
+    }
+  }
+}

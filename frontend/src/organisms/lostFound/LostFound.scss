@@ -1,0 +1,58 @@
+.lost-found{
+  width: 70%;
+  min-width: 335px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+
+  &__label{
+    align-self: start;
+    color: white;
+    font-weight: 500;
+    font-size: 1em;
+    margin-top: 1.2rem;
+  }
+
+  &__categories{
+    margin: 0.5rem 0;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-self: start;
+  }
+
+
+  &__categoryButton {
+    background: rgba(255, 255, 255, 0.1);
+    font-family: var(--font-poppins);
+    font-size: 0.9em;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    &--active {
+      background: #8f8e8edc;
+    }
+  }
+  
+  &__grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+  }
+  
+
+
+}

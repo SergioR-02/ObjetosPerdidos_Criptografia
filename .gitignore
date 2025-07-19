@@ -1,0 +1,42 @@
+# Variables de entorno (CRÍTICO)
+.env
+.env.local
+.env.*.local
+
+# Dependencias
+node_modules/
+*/node_modules/
+
+# Builds
+dist/
+build/
+*/dist/
+*/build/
+
+# Logs
+*.log
+logs/
+
+# Archivos temporales
+*.tmp
+*.temp
+.cache/
+
+# IDE y editores
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Documentación de desarrollo local
+DEVELOPMENT.md
+SETUP.md
+
+# Archivos de configuración local
+config.local.*
+*.local.js

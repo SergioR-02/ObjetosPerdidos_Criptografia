@@ -1,0 +1,49 @@
+.my-reports-container {
+    background-color: #252b39;
+    padding: 2rem;
+    border-radius: 2rem;
+    min-width: 330px;
+    .my-reports{
+        .my-reports__description{
+            margin-bottom: 1.5rem;
+        }
+        .my-reports__list{
+            display:flex;
+            flex-direction: column;
+            gap: 1rem;
+            .my-reports__item{
+                background-color: #373c48;
+                padding: 1.3rem;
+                border-radius: 1rem;
+            }
+            .my-reports__item-actions{
+                margin-top: .5rem;
+                display: flex;
+                gap:1rem;
+                .my-reports__item-button{
+                    color: white;
+                    width: 27%;
+                    min-width: 105px;
+                    padding: .5rem 1.5rem;
+                    border-radius: 1.5rem;
+                }
+                .my-reports__item-button--edit{
+                    background-color: #3d3381;
+                    &:hover {
+                        background: #1e0d69;
+                    }
+                }
+                
+            
+                .my-reports__item-button--delete{
+                    background-color: #ff3c5f;
+                    &:hover {
+                        background: #e71037;
+                    }
+                
+                }
+            }
+        }
+    }
+
+}

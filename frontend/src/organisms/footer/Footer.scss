@@ -1,0 +1,31 @@
+.footer {
+  background-color: black;
+  color: #ecf0f1;
+  font-family: "Poppins", sans-serif;
+  padding: 1.1rem 0;
+
+  &__container {
+    max-width: 1400px;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+  }
+
+  &__text {
+    font-size: 0.9rem;
+    line-height: 1.3;
+  }
+
+  &__copyright {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    border-top: 1px solid #ececec;
+    padding-top: 1.1rem;
+    font-size: 0.8rem;
+    color: #bdc3c7;
+  }
+}

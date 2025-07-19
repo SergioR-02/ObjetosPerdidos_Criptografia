@@ -1,0 +1,41 @@
+.objects-section{
+  color: #ffffff;
+  text-align: center ;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(100vh - 10.5rem); 
+  &__title{
+    font-size: 4.2em;
+    font-weight: 700;
+    line-height: 80px;
+    @media screen and (max-width: 768px) {
+      font-size: 3.8em;
+    }
+    @media screen and (max-width: 450px) {
+      font-size: 3em;
+      line-height: 3.625rem;
+    }
+  }
+
+  &__subtitle{
+    font-size: 1.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin: 0 0 1rem;
+    @media screen and (max-width: 768px) {
+      font-size: 1.3em;
+    }
+    @media screen and (max-width: 450px) {
+      font-size: 1.2em;
+    }
+  }
+  
+  &__cards{
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+}

@@ -1,0 +1,39 @@
+
+.card-button{
+  color: #ffffff;
+  background: #0000009f;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 20px;
+  padding: 2.5rem 5.625rem 1.5625rem;
+  font-family: var(--font-poppins);
+  max-width: 31.25rem;
+  @media screen and (max-width: 700px){
+    padding: 1.875rem 1.875rem 1.25rem;
+  }
+  &__title{
+    font-size: 2.0625em;
+    font-weight: 600;
+    margin: 0 0 1.875rem;
+    @media screen and (max-width: 700px){
+      font-size: 1.75rem;
+      margin: 0 0 1.5625em;
+    }
+  }
+
+
+  &__paragraph{
+    max-width: 19.375rem;
+    font-size: 1.125em;
+    font-weight: 200;
+    margin: 0 0 15px;
+    font-style: italic;
+    @media screen and (max-width: 630px){
+      font-size: 1em;
+      margin: 0 0 25px;
+    }
+  }
+}

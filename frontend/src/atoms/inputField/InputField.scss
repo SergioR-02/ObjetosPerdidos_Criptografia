@@ -1,0 +1,31 @@
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+
+.input-field{
+    display: flex;
+    flex-direction: column;
+}
+.input-field__label{
+    color: white;
+}
+.input-field__input{
+    width: 20rem;
+    height: 4rem;
+    border-radius: .7rem;
+    border: none;
+    background-color: #373c48;
+    color: white;
+    padding: 1rem;
+    font-size: 1em;
+    
+}
+
+.input-field__input:focus {
+    outline: none;
+    border: .0625rem solid white;
+}

@@ -1,0 +1,17 @@
+.login__form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  .login__forgot-password {
+    margin-top: 1rem;
+    color: white;
+  }
+  .login__register {
+    color: white;
+    //cambiar el tipo de letra
+    font-family: "Poppins", sans-serif;
+    font-size: 1rem;
+  }
+}

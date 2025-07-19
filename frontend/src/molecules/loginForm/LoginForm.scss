@@ -1,0 +1,28 @@
+.login-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .login-form__title{
+        color: white;
+        font-size: 4em;
+        margin-bottom: .5em;
+    }
+    .login-form__fields{
+        display: flex;
+        flex-direction: column;
+        gap: .7rem;
+        margin-bottom: 2rem;
+    }
+    .login-form__button{
+        width: 20rem;
+        height: 4rem;
+        border-radius: 10rem;
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+    .login-form__errorMessage{
+        margin-top: 1rem;
+    }
+}

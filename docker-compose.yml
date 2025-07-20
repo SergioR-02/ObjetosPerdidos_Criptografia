@@ -1,0 +1,89 @@
+version: '3.8'
+
+services:
+  # Base de datos MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: objetos_perdidos_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: objetos_perdidos
+      MYSQL_USER: app_user
+      MYSQL_PASSWORD: app_password123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - objetos_perdidos_network
+
+  # Backend Node.js
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: objetos_perdidos_backend
+    restart: always
+    environment:
+      NODE_ENV: production
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: app_user
+      DB_PASSWORD: app_password123
+      DB_NAME: objetos_perdidos
+      JWT_SECRET: your_super_secret_jwt_key_here_2025
+      REFRESH_TOKEN_SECRET: your_super_secret_refresh_key_here_2025
+      RECAPTCHA_SECRET_KEY: 6Lc4zocrAAAAAGYzqNc8ZxRwuL5P7WLx00_26MII
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend/src/uploads:/app/src/uploads
+    depends_on:
+      - mysql
+    networks:
+      - objetos_perdidos_network
+
+  # Frontend React
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: objetos_perdidos_frontend
+    restart: always
+    environment:
+      VITE_API_BASE_URL: http://localhost:3000
+      VITE_RECAPTCHA_SITE_KEY: 6Lc4zocrAAAAAGTLWMBajx-OzinjlGNV5wxrmBBO
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    networks:
+      - objetos_perdidos_network
+
+  # phpMyAdmin para administración de base de datos (opcional)
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: objetos_perdidos_phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: root123
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+    networks:
+      - objetos_perdidos_network
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  objetos_perdidos_network:
+    driver: bridge

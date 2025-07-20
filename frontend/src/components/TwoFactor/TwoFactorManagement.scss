@@ -1,0 +1,255 @@
+.two-factor-management {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+
+  &__status {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    h3 {
+      color: #333;
+      margin: 1rem 0;
+      font-size: 1.5rem;
+    }
+
+    p {
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+
+      strong {
+        color: #333;
+      }
+    }
+  }
+
+  &__status-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+
+    &--enabled {
+      color: #28a745;
+    }
+
+    &--disabled {
+      color: #dc3545;
+      opacity: 0.6;
+    }
+  }
+
+  &__description {
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem !important;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+
+  &__form {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+
+    h4 {
+      color: #333;
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+
+    p {
+      color: #666;
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+  }
+
+  &__form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  &__new-codes {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
+
+    h4 {
+      color: #333;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+  }
+
+  &__warning {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+
+    p {
+      color: #856404;
+      margin: 0;
+      font-weight: 500;
+    }
+  }
+
+  &__codes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  &__backup-code {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 0.75rem;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #495057;
+  }
+
+  &__codes-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+}
+
+// Estilos para botones de peligro
+.two-factor-management button[color='danger'] {
+  background-color: #dc3545;
+  border-color: #dc3545;
+
+  &:hover:not(:disabled) {
+    background-color: #c82333;
+    border-color: #bd2130;
+  }
+
+  &[variant='outlined'] {
+    background-color: transparent;
+    color: #dc3545;
+
+    &:hover:not(:disabled) {
+      background-color: #dc3545;
+      color: white;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .two-factor-management {
+    padding: 1rem;
+    margin: 1rem;
+
+    &__status {
+      padding: 1.5rem;
+    }
+
+    &__status-icon {
+      font-size: 2.5rem;
+    }
+
+    &__actions {
+      flex-direction: column;
+      align-items: center;
+
+      button {
+        width: 100%;
+        max-width: 250px;
+      }
+    }
+
+    &__form {
+      padding: 1.5rem;
+    }
+
+    &__form-actions {
+      flex-direction: column;
+      align-items: center;
+
+      button {
+        width: 100%;
+        max-width: 200px;
+      }
+    }
+
+    &__codes-grid {
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 0.75rem;
+    }
+
+    &__backup-code {
+      padding: 0.5rem;
+      font-size: 0.8rem;
+    }
+
+    &__codes-actions {
+      flex-direction: column;
+      align-items: center;
+
+      button {
+        width: 100%;
+        max-width: 200px;
+      }
+    }
+
+    &__new-codes {
+      padding: 1.5rem;
+    }
+  }
+}
+
+// Animaciones
+.two-factor-management__form,
+.two-factor-management__new-codes {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Estados de los inputs
+.two-factor-management__form input {
+  text-align: center;
+  font-family: 'Courier New', monospace;
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+
+  &:focus {
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    border-color: #007bff;
+  }
+}

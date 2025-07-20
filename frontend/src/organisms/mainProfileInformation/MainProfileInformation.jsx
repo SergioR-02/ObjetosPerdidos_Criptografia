@@ -6,6 +6,7 @@ import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import './MainProfileInformation.scss';
 import ProfileInformation from '../../molecules/profileInformation/ProfileInformation';
 import MyReports from '../../molecules/myReports/MyReports';
+import TwoFactorManagement from '../../components/TwoFactor/TwoFactorManagement';
 import { useUserStore } from '../../store/userStore';
 import MainButton from '../../atoms/mainButton/MainButton';
 import Logout from '../../utilities/logout';
@@ -69,6 +70,13 @@ export default function MainProfileInformation() {
         setSelectedButton('MIS REPORTES');
       },
     },
+    {
+      nombre: 'SEGURIDAD',
+      onClick: () => {
+        setTransitionDirection('left');
+        setSelectedButton('SEGURIDAD');
+      },
+    },
   ];
 
   return (
@@ -76,17 +84,26 @@ export default function MainProfileInformation() {
       <div className='main-profile-information'>
         <h1 className='main-profile-information__title'>Perfil de Usuario</h1>
         <UserBasicInformation
-          imageSrc="public\fotoSeria.jpg"
+          imageSrc='public\fotoSeria.jpg'
           name={userName}
           email={userEmail}
         />
-        <MainButton
-          text='Cerrar Sesión'
-          className='main-profile-information__button'
-          onClick={() => {
-            handleLogout();
-          }}
-        />
+        <div className='main-profile-information__buttons-container'>
+          <MainButton
+            text='🛡️ Configurar 2FA'
+            className='main-profile-information__button main-profile-information__button--2fa'
+            onClick={() => {
+              navigate('/setup-2fa');
+            }}
+          />
+          <MainButton
+            text='Cerrar Sesión'
+            className='main-profile-information__button'
+            onClick={() => {
+              handleLogout();
+            }}
+          />
+        </div>
         <ListButtons
           buttons={buttons}
           selectedButton={selectedButton}
@@ -106,8 +123,15 @@ export default function MainProfileInformation() {
               <div ref={nodeRef} className='transition-content'>
                 {selectedButton === 'INFORMACIÓN DEL PERFIL' ? (
                   <ProfileInformation />
+                ) : selectedButton === 'MIS REPORTES' ? (
+                  <MyReports
+                    reports={reports}
+                    userId={userId}
+                    setReload={setReload}
+                    reload={reload}
+                  />
                 ) : (
-                  <MyReports reports={reports} userId={userId} setReload={setReload} reload={reload} />
+                  <TwoFactorManagement />
                 )}
               </div>
             </CSSTransition>

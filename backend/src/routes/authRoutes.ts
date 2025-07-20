@@ -17,6 +17,9 @@ export const createAuthRouter = (userModel: UserModel): Router => {
   // Iniciar sesión (con verificación de reCAPTCHA)
   authRouter.post('/login', verifyRecaptcha, authController.login);
 
+  // Iniciar sesión con 2FA (sin reCAPTCHA - ya verificado en el login inicial)
+  authRouter.post('/login-2fa', authController.loginWith2FA);
+
   // Refrescar el access token
   authRouter.post('/refresh-token', authController.refreshToken);
 

@@ -4,7 +4,8 @@ import jwt from 'jsonwebtoken';
 import { JWT_CONFIG } from '../config';
 import UserModel from '../models/UserModel';
 import bcrypt from 'bcrypt';
-import { validateLogin, validateRegister } from '../schemas/authSchemas';
+import { validateLogin, validateRegister, validateLoginWith2FA } from '../schemas/authSchemas';
+import speakeasy from 'speakeasy';
 
 export class AuthController {
   private userModel: UserModel;
@@ -46,7 +47,7 @@ export class AuthController {
     }
   };
 
-  // Iniciar sesión
+  // Iniciar sesión (primera fase - verificar credenciales)
   login = async (req: Request, res: Response): Promise<void> => {
     const validate = validateLogin(req.body);
 
@@ -72,6 +73,100 @@ export class AuthController {
         return;
       }
 
+      // Verificar si el usuario tiene 2FA habilitado
+      const twoFactorInfo = await this.userModel.get2FAInfo(user.user_id);
+
+      if (twoFactorInfo?.two_factor_enabled) {
+        // Si 2FA está habilitado, no completar el login todavía
+        res.status(200).json({
+          message: 'Credenciales válidas',
+          requires2FA: true,
+          hint: 'Ingresa tu código de 6 dígitos de la aplicación de autenticación o un código de respaldo',
+        });
+        return;
+      }
+
+      // Si no tiene 2FA, completar el login normalmente
+      this.completeLogin(user, res);
+    } catch (error: any) {
+      console.error('Error en login:', error);
+      res.status(500).json({
+        message: 'Error en el servidor',
+        error: process.env.NODE_ENV === 'development' ? error.message : undefined,
+      });
+    }
+  };
+
+  // Iniciar sesión con verificación 2FA (segunda fase)
+  loginWith2FA = async (req: Request, res: Response): Promise<void> => {
+    const validate = validateLoginWith2FA(req.body);
+
+    if (!validate.success) {
+      res.status(400).json({ error: JSON.parse(validate.error.message) });
+      return;
+    }
+
+    const { email, password, twoFactorCode } = req.body;
+
+    try {
+      // Verificar credenciales nuevamente
+      const user = await this.userModel.getUserByEmail(email);
+      if (!user) {
+        res.status(401).json({ message: 'Credenciales inválidas' });
+        return;
+      }
+
+      const isPasswordValid = await bcrypt.compare(password, user.password_hash);
+      if (!isPasswordValid) {
+        res.status(401).json({ message: 'Credenciales inválidas' });
+        return;
+      }
+
+      // Verificar 2FA
+      const twoFactorInfo = await this.userModel.get2FAInfo(user.user_id);
+      if (!twoFactorInfo?.two_factor_enabled || !twoFactorInfo.two_factor_secret) {
+        res.status(400).json({ message: '2FA no está habilitado para este usuario' });
+        return;
+      }
+
+      // Verificar código TOTP
+      const verified = speakeasy.totp.verify({
+        secret: twoFactorInfo.two_factor_secret,
+        encoding: 'base32',
+        token: twoFactorCode,
+        window: 2,
+      });
+
+      let isBackupCodeUsed = false;
+
+      if (!verified) {
+        // Si TOTP falla, verificar código de respaldo
+        if (twoFactorInfo.backup_codes && twoFactorInfo.backup_codes.includes(twoFactorCode)) {
+          isBackupCodeUsed = await this.userModel.useBackupCode(user.user_id, twoFactorCode);
+          if (!isBackupCodeUsed) {
+            res.status(401).json({ message: 'Código de verificación inválido' });
+            return;
+          }
+        } else {
+          res.status(401).json({ message: 'Código de verificación inválido' });
+          return;
+        }
+      }
+
+      // Completar login
+      this.completeLogin(user, res, isBackupCodeUsed);
+    } catch (error: any) {
+      console.error('Error en loginWith2FA:', error);
+      res.status(500).json({
+        message: 'Error en el servidor',
+        error: process.env.NODE_ENV === 'development' ? error.message : undefined,
+      });
+    }
+  };
+
+  // Método auxiliar para completar el login
+  private completeLogin = (user: any, res: Response, backupCodeUsed: boolean = false): void => {
+    try {
       // Generar access token
       const accessToken = jwt.sign({ user_id: user.user_id, role: user.role }, JWT_CONFIG.ACCESS_TOKEN_SECRET, {
         expiresIn: JWT_CONFIG.ACCESS_TOKEN_EXPIRES_IN,
@@ -99,7 +194,12 @@ export class AuthController {
         path: '/',
       });
 
-      res.status(200).json({ message: 'Inicio de sesión exitoso' });
+      const response: any = { message: 'Inicio de sesión exitoso' };
+      if (backupCodeUsed) {
+        response.warning = 'Has usado un código de respaldo. Considera regenerar nuevos códigos desde tu perfil.';
+      }
+
+      res.status(200).json(response);
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Error en el servidor' });

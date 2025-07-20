@@ -12,6 +12,9 @@ CREATE TABLE IF NOT EXISTS Users (
     is_confirmed BOOLEAN NOT NULL DEFAULT FALSE COMMENT 'Cuenta verificada',
     is_active BOOLEAN NOT NULL DEFAULT TRUE COMMENT 'True = cuenta activa',
     role ENUM('user', 'admin') NOT NULL DEFAULT 'user' COMMENT 'Permisos',
+    two_factor_secret VARCHAR(32) COMMENT 'Clave secreta para 2FA (base32)',
+    two_factor_enabled BOOLEAN NOT NULL DEFAULT FALSE COMMENT 'Indica si 2FA está habilitado',
+    backup_codes JSON COMMENT 'Códigos de respaldo para 2FA en formato JSON',
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -166,11 +169,11 @@ INSERT IGNORE INTO Locations (name) VALUES
 ('ICONTEC'),
 ('Agustín Codazzi');
 -- Índices para optimización
-CREATE INDEX IF NOT EXISTS idx_category ON Reports(category_id);
-CREATE INDEX IF NOT EXISTS idx_location ON Reports(location_id);
-CREATE INDEX IF NOT EXISTS idx_date ON Reports(date_lost_or_found);
-CREATE FULLTEXT INDEX IF NOT EXISTS idx_title_description ON Reports(title,description);
-CREATE INDEX IF NOT EXISTS idx_reports_user_id ON Reports(user_id);
-CREATE INDEX IF NOT EXISTS idx_reports_status ON Reports(status);
-CREATE INDEX IF NOT EXISTS idx_images_report_id ON Images(report_id);
-CREATE INDEX IF NOT EXISTS idx_users_email ON Users(email);
+CREATE INDEX idx_category ON Reports(category_id);
+CREATE INDEX idx_location ON Reports(location_id);
+CREATE INDEX idx_date ON Reports(date_lost_or_found);
+CREATE FULLTEXT INDEX idx_title_description ON Reports(title,description);
+CREATE INDEX idx_reports_user_id ON Reports(user_id);
+CREATE INDEX idx_reports_status ON Reports(status);
+CREATE INDEX idx_images_report_id ON Images(report_id);
+CREATE INDEX idx_users_email ON Users(email);

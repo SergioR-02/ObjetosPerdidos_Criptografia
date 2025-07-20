@@ -4,6 +4,7 @@ import { corsMiddleware } from './middlewares/corsMiddleware';
 import { MySQLDatabase } from './database/mysql';
 import cookieParser from 'cookie-parser';
 import { createAuthRouter } from './routes/authRoutes';
+import { createTwoFactorRouter } from './routes/twoFactorRoutes';
 import { createReportRouter } from './routes/reportRoutes';
 import { createUserRouter } from './routes/userRoutes';
 import { createLocationRouter } from './routes/LocationRoutes';
@@ -23,6 +24,8 @@ export const createApp = async ({ models }: { models: Models }): Promise<express
     app.disable('x-powered-by');
 
     app.use('/auth', createAuthRouter(new models.userModel()));
+
+    app.use('/2fa', createTwoFactorRouter(new models.userModel()));
 
     app.use('/user', createReportRouter(new models.reportModel(), new models.imageModel()));
 

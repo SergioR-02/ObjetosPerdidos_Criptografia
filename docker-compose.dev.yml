@@ -1,8 +1,8 @@
 services:
-  # Base de datos MySQL
+  # Base de datos MySQL (DESARROLLO - sin volumen persistente)
   mysql:
     image: mysql:8.0
-    container_name: objetos_perdidos_mysql
+    container_name: objetos_perdidos_mysql_dev
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root123
@@ -12,7 +12,7 @@ services:
     ports:
       - '3307:3306'
     volumes:
-      - mysql_data:/var/lib/mysql
+      # SIN volumen persistente - se recrea cada vez
       - ./database/init.sql:/docker-entrypoint-initdb.d/01-init.sql
       - ./database/migrate_2fa.sql:/docker-entrypoint-initdb.d/02-migrate_2fa.sql
     networks:
@@ -23,10 +23,10 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: objetos_perdidos_backend
+    container_name: objetos_perdidos_backend_dev
     restart: always
     environment:
-      NODE_ENV: production
+      NODE_ENV: development
       DB_HOST: mysql
       DB_PORT: 3306
       DB_USER: app_user
@@ -53,7 +53,7 @@ services:
       args:
         VITE_API_BASE_URL: http://localhost:3000
         VITE_RECAPTCHA_SITE_KEY: 6LfyiYkrAAAAAFRUN69HasWGXUltHEEzWRJD1kHG
-    container_name: objetos_perdidos_frontend
+    container_name: objetos_perdidos_frontend_dev
     restart: always
     ports:
       - '5173:80'
@@ -62,10 +62,10 @@ services:
     networks:
       - objetos_perdidos_network
 
-  # phpMyAdmin para administración de base de datos (opcional)
+  # phpMyAdmin para administración de base de datos
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: objetos_perdidos_phpmyadmin
+    container_name: objetos_perdidos_phpmyadmin_dev
     restart: always
     environment:
       PMA_HOST: mysql
@@ -79,10 +79,8 @@ services:
     networks:
       - objetos_perdidos_network
 
-volumes:
-  mysql_data:
-    driver: local
-
 networks:
   objetos_perdidos_network:
     driver: bridge
+# NO incluimos volúmenes persistentes para desarrollo
+# Los datos se recrean cada vez que se levanta el proyecto

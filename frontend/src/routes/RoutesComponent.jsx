@@ -8,6 +8,7 @@ import ObjectDetails from '../templates/objectDetails/ObjectDetails';
 import FormReport from '../templates/formReports/FormReports';
 import ProfileInformation from '../templates/profileInformation/ProfileInformation';
 import SearchReports from '../templates/searchReports/SearchReports';
+import TwoFactorSetupPage from '../templates/twoFactorSetup/TwoFactorSetupPage';
 import PrivateRoute from './privateRoute';
 import { useEffect, useState } from 'react';
 import { checkAuthStatus } from '../utilities/auth';
@@ -24,10 +25,16 @@ const RoutesComponent = () => {
     const verifyAuth = async () => {
       try {
         // Solo verificar autenticación si estamos en una ruta protegida
-        const protectedRoutes = ['/home', '/profile', '/reports', '/add-report'];
+        const protectedRoutes = [
+          '/home',
+          '/profile',
+          '/reports',
+          '/add-report',
+          '/setup-2fa',
+        ];
         const currentPath = window.location.pathname;
-        
-        if (protectedRoutes.some(route => currentPath.startsWith(route))) {
+
+        if (protectedRoutes.some((route) => currentPath.startsWith(route))) {
           // Solo verificar autenticación para rutas protegidas
           const isAuth = await checkAuthStatus();
           setIsAuthenticated(isAuth);
@@ -62,6 +69,7 @@ const RoutesComponent = () => {
           <Route path='/home' element={<Home />} />
           <Route path='/objectDetails/:id' element={<ObjectDetails />} />
           <Route path='/profileInformation' element={<ProfileInformation />} />
+          <Route path='/setup-2fa' element={<TwoFactorSetupPage />} />
           <Route path='/report' element={<FormReport />} />
           <Route path='/editar/:id' element={<FormReport />} />
           <Route path='/searchReports' element={<SearchReports />} />

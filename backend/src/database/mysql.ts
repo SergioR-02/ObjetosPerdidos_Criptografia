@@ -20,14 +20,29 @@ export class MySQLDatabase {
 
   // Conecta a la base de datos MySQL usando las credenciales de .env
   private async connect(): Promise<void> {
-    this.connection = await mysql.createConnection({
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASS,
-      database: process.env.DB_NAME,
-      port: Number(process.env.DB_PORT),
-    });
-    console.log('Conexión a MySQL establecida');
+    const maxRetries = 10;
+    let retries = 0;
+
+    while (retries < maxRetries) {
+      try {
+        this.connection = await mysql.createConnection({
+          host: process.env.DB_HOST,
+          user: process.env.DB_USER,
+          password: process.env.DB_PASS,
+          database: process.env.DB_NAME,
+          port: Number(process.env.DB_PORT),
+        });
+        console.log('Conexión a MySQL establecida');
+        return;
+      } catch (error) {
+        retries++;
+        console.log(`Intento de conexión ${retries}/${maxRetries} fallido. Reintentando en 3 segundos...`);
+        if (retries >= maxRetries) {
+          throw error;
+        }
+        await new Promise(resolve => setTimeout(resolve, 3000));
+      }
+    }
   }
 
   // Obtiene la conexión activa o lanza un error si no está disponible

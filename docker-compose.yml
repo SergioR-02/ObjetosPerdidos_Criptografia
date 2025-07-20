@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # Base de datos MySQL
   mysql:
@@ -12,7 +10,7 @@ services:
       MYSQL_USER: app_user
       MYSQL_PASSWORD: app_password123
     ports:
-      - "3306:3306"
+      - '3307:3306'
     volumes:
       - mysql_data:/var/lib/mysql
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -31,14 +29,14 @@ services:
       DB_HOST: mysql
       DB_PORT: 3306
       DB_USER: app_user
-      DB_PASSWORD: app_password123
+      DB_PASS: app_password123
       DB_NAME: objetos_perdidos
       JWT_SECRET: your_super_secret_jwt_key_here_2025
       REFRESH_TOKEN_SECRET: your_super_secret_refresh_key_here_2025
-      RECAPTCHA_SECRET_KEY: 6Lc4zocrAAAAAGYzqNc8ZxRwuL5P7WLx00_26MII
+      RECAPTCHA_SECRET_KEY: 6LfyiYkrAAAAAPQbPiaZGH18T7UTDJQ6lrUynh3R
       PORT: 3000
     ports:
-      - "3000:3000"
+      - '3000:3000'
     volumes:
       - ./backend/src/uploads:/app/src/uploads
     depends_on:
@@ -51,13 +49,13 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: http://localhost:3000
+        VITE_RECAPTCHA_SITE_KEY: 6LfyiYkrAAAAAFRUN69HasWGXUltHEEzWRJD1kHG
     container_name: objetos_perdidos_frontend
     restart: always
-    environment:
-      VITE_API_BASE_URL: http://localhost:3000
-      VITE_RECAPTCHA_SITE_KEY: 6Lc4zocrAAAAAGTLWMBajx-OzinjlGNV5wxrmBBO
     ports:
-      - "5173:80"
+      - '5173:80'
     depends_on:
       - backend
     networks:
@@ -74,7 +72,7 @@ services:
       PMA_USER: root
       PMA_PASSWORD: root123
     ports:
-      - "8080:80"
+      - '8080:80'
     depends_on:
       - mysql
     networks:

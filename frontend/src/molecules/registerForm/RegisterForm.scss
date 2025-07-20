@@ -32,4 +32,15 @@
         color: white;
         font-size: .75rem;
     }
+    
+    .register-form__recaptcha {
+        margin: 1rem 0;
+        display: flex;
+        justify-content: center;
+        
+        .g-recaptcha {
+            transform: scale(0.9);
+            transform-origin: center;
+        }
+    }
 }

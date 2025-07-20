@@ -1,13 +1,19 @@
 import axios from "axios";
 import API_BASE_URL from "../config/api.js";
 import Logout from "./logout";
-const Login = async (email, password) => {
+
+const Login = async (email, password, recaptchaToken) => {
+  if (!recaptchaToken) {
+    throw new Error('reCAPTCHA token es requerido');
+  }
+  
   try {
     const response = await axios.post(
       `${API_BASE_URL}/auth/login`,
       {
         email: email,
         password: password,
+        recaptchaToken: recaptchaToken,
       },
       {
         withCredentials: true,
@@ -34,17 +40,19 @@ const refreshToken = async () => {
         withCredentials: true,
       }
     );
-    return response.data;
+    return response;
   } catch (error) {
-    console.error('Error refreshing token:', error);
+    // Solo logeamos errores que no sean 401 (no tener refresh token es normal)
+    if (error.response?.status !== 401) {
+      console.error('Error refreshing token:', error);
+    }
     throw error;
   }
 };
 
 let refreshInterval;
 
-const setupTokenRefresh = (intervalMs = 5 * 60 * 1000) => { // 295 segundos por defecto
-  console.log('Configurando refresco de token');
+const setupTokenRefresh = (intervalMs = 5 * 60 * 1000) => { // 5 minutos por defecto
   // Limpiar el intervalo anterior si existe
   if (refreshInterval) {
     clearInterval(refreshInterval);
@@ -54,7 +62,6 @@ const setupTokenRefresh = (intervalMs = 5 * 60 * 1000) => { // 295 segundos por 
   refreshInterval = setInterval(async () => {
     try {
       await refreshToken();
-      console.log('Token refrescado exitosamente');
     } catch (error) {
       console.error('Error en el refresh automático:', error);
       // Si hay un error, detener el intervalo
@@ -73,4 +80,12 @@ const setupTokenRefresh = (intervalMs = 5 * 60 * 1000) => { // 295 segundos por 
   };
 };
 
-export { Login, refreshToken, setupTokenRefresh };
+const clearTokenRefresh = () => {
+  if (refreshInterval) {
+    clearInterval(refreshInterval);
+    refreshInterval = null;
+  }
+};
+
+export default Login;
+export { refreshToken, setupTokenRefresh, clearTokenRefresh };

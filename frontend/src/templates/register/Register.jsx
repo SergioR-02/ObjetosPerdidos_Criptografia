@@ -14,12 +14,10 @@ const Register = () => {
   if (isAuthenticated) {
     return <Navigate to='/home' replace />;
   }
-  const handleSubmit = async (name, email, password, phone) => {
+  const handleSubmit = async (name, email, password, phone, recaptchaToken) => {
     const phoneString = phone.toString();
     try {
-      //imprimir el tipo del dato de phoneString
-      console.log(typeof phoneString);
-      const responsePetition = await RegisterUser(name, email, password, phoneString);
+      const responsePetition = await RegisterUser(name, email, password, phoneString, recaptchaToken);
       if(responsePetition.message==='Usuario registrado exitosamente'){
         navigate('/login');
       }else{

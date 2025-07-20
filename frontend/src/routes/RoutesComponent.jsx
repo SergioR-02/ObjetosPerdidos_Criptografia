@@ -23,9 +23,18 @@ const RoutesComponent = () => {
   useEffect(() => {
     const verifyAuth = async () => {
       try {
-        // Verificar autenticación en todas las rutas
-        const isAuth = await checkAuthStatus();
-        setIsAuthenticated(isAuth);
+        // Solo verificar autenticación si estamos en una ruta protegida
+        const protectedRoutes = ['/home', '/profile', '/reports', '/add-report'];
+        const currentPath = window.location.pathname;
+        
+        if (protectedRoutes.some(route => currentPath.startsWith(route))) {
+          // Solo verificar autenticación para rutas protegidas
+          const isAuth = await checkAuthStatus();
+          setIsAuthenticated(isAuth);
+        } else {
+          // Para rutas públicas, simplemente establecer como no autenticado sin verificar
+          setIsAuthenticated(false);
+        }
       } catch (error) {
         console.log('error', error);
         setIsAuthenticated(false);

@@ -1,7 +1,7 @@
 import './LoginRegistrationForget.scss';
 import { useState } from 'react';
 import LoginForm from '../../molecules/loginForm/LoginForm';
-import { Login } from '../../utilities/login';
+import Login from '../../utilities/login';
 import { useNavigate } from 'react-router-dom';
 import { getUser } from '../../utilities/user';
 import { useUserStore } from '../../store/userStore';
@@ -22,8 +22,10 @@ const LoginRegistrationForget = () => {
     navigate('/register');
   };
 
-  const handleLogin = (email, password) => {
-    Login(email, password)
+  const handleLogin = (formData) => {
+    const { email, password, recaptchaToken } = formData;
+    
+    Login(email, password, recaptchaToken)
       .then((response) => {
         if (response.status === 200) {
           setError(null);
@@ -67,7 +69,7 @@ const LoginRegistrationForget = () => {
       </a>
       <button
         className='login__register'
-        onClick={() => console.log(handleSessionClick())}
+        onClick={handleSessionClick}
       >
         Registrate
       </button>

@@ -5,7 +5,12 @@ import { useUserStore } from '../store/userStore';
 export const checkAuthStatus = async () => {
   try {
     // Intentamos refrescar el token
-    await refreshToken();
+    const refreshResponse = await refreshToken();
+    
+    // Si el refresh token no es válido, no continuamos
+    if (refreshResponse.status !== 200) {
+      return false;
+    }
 
     // Si el refresh token es válido, obtenemos la información del usuario
     const userData = await getUser();
@@ -30,7 +35,11 @@ export const checkAuthStatus = async () => {
 
     return true;
   } catch (error) {
-    console.error('Error al verificar el estado de autenticación:', error);
+    // Solo logeamos errores que no sean 401 (no autenticado es normal)
+    if (error.response?.status !== 401) {
+      console.error('Error al verificar el estado de autenticación:', error);
+    }
+    // Para errores 401, simplemente retornamos false sin logging
     return false;
   }
 }; 

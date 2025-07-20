@@ -110,6 +110,12 @@ export class AuthController {
   refreshToken = async (req: Request, res: Response): Promise<void> => {
     const { refreshToken } = req.cookies;
 
+    // Si no hay refresh token, devolver error 401
+    if (!refreshToken) {
+      res.status(401).json({ message: 'No hay refresh token' });
+      return;
+    }
+
     try {
       // Verificar el refresh token
       const decoded = jwt.verify(refreshToken, JWT_CONFIG.REFRESH_TOKEN_SECRET) as {

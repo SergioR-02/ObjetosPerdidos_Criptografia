@@ -6,6 +6,7 @@ export const registerSchema = z.object({
   password: z.string().min(8, 'La contraseña debe tener al menos 8 caracteres'),
   name: z.string().min(1, 'El nombre es requerido'),
   phone_number: z.string().optional(),
+  recaptchaToken: z.string().min(1, 'reCAPTCHA es requerido'),
 });
 
 export const updateUserSchema = z.object({
@@ -18,6 +19,7 @@ export const updateUserSchema = z.object({
 export const loginSchema = z.object({
   email: z.string().email('Correo electrónico inválido'),
   password: z.string().min(1, 'La contraseña es requerida'),
+  recaptchaToken: z.string().min(1, 'reCAPTCHA es requerido'),
 });
 
 // Exportar los tipos inferidos de los esquemas

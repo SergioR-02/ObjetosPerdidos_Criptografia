@@ -95,26 +95,19 @@ class UserModel {
     );
 
     const result = rows[0] as any;
-    if (!result) return null;
+    if (!result) {
+      return null;
+    }
 
-    // Parsear backup_codes de forma segura
-    let parsedBackupCodes: string[] | null = null;
-    if (result.backup_codes) {
-      try {
-        // Solo intentar parsear si parece ser JSON válido
-        if (typeof result.backup_codes === 'string' && result.backup_codes.startsWith('[')) {
-          parsedBackupCodes = JSON.parse(result.backup_codes);
-        }
-      } catch (error) {
-        console.error('Error parsing backup_codes JSON:', error);
-        parsedBackupCodes = null;
-      }
+    let backup_codes: string[] | undefined = undefined;
+    if (Array.isArray(result.backup_codes)) {
+      backup_codes = result.backup_codes;
     }
 
     return {
       two_factor_enabled: !!result.two_factor_enabled,
-      two_factor_secret: result.two_factor_secret || null,
-      backup_codes: parsedBackupCodes || undefined,
+      two_factor_secret: result.two_factor_secret || undefined,
+      backup_codes: backup_codes,
     };
   }
 
@@ -125,11 +118,17 @@ class UserModel {
 
     // Obtener códigos actuales
     const info = await this.get2FAInfo(user_id);
-    if (!info?.backup_codes) return false;
+
+    if (!info?.backup_codes) {
+      return false;
+    }
 
     // Verificar si el código existe
     const codeIndex = info.backup_codes.indexOf(codeToRemove);
-    if (codeIndex === -1) return false;
+
+    if (codeIndex === -1) {
+      return false;
+    }
 
     // Remover el código usado
     info.backup_codes.splice(codeIndex, 1);

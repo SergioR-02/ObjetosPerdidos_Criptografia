@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { AuthController } from '../controllers/authController';
 import UserModel from '../models/UserModel';
 import { verifyRecaptcha } from '../middlewares/recaptchaMiddleware';
-import { testRecaptcha } from '../controllers/testController';
+import { testRecaptcha, debugBackupCodes } from '../controllers/testController';
 
 export const createAuthRouter = (userModel: UserModel): Router => {
   const authRouter = Router();
@@ -10,6 +10,9 @@ export const createAuthRouter = (userModel: UserModel): Router => {
 
   // Endpoint de prueba para reCAPTCHA
   authRouter.post('/test-recaptcha', testRecaptcha);
+
+  // Endpoint de debug para códigos de respaldo
+  authRouter.post('/debug-backup-codes', debugBackupCodes);
 
   // Registrar un nuevo usuario (con verificación de reCAPTCHA)
   authRouter.post('/register', verifyRecaptcha, authController.register);
